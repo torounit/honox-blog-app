@@ -11,6 +11,7 @@
 ### コミットルール
 - **【重要】: 1つのタスク完了したら必ずコミットして下さい。**
 - **1機能1コミットで小さくコミットして下さい。**
+- **コミットする際は、必ず、Typescript のエラー、ESLint のエラーを解消してからコミットして下さい。**
 - Conventional Commits のルールに従ってコミットメッセージを記述してください。
 - 🔴 テストを書いたら: `test: [機能] の失敗するテストを追加`
 - 🟢 テストを通したら: `feat: テストを通すために [機能] を実装`
@@ -41,10 +42,6 @@
 - Vitest
 
 ## 仕様
-
-### プロジェクト構成
-* `https://github.com/honojs/honox/blob/main/README.md` を参照して honox プロジェクトを作成して下さい。
-* `echo 'y' | npm create hono@latest -- . --template x-basic -p npm -i` を実行してプロジェクトを作成出来ます。
 
 ### 認証
 - auth.js を使用して、ユーザー認証を実装する。
@@ -80,8 +77,18 @@
 - ID は UUID を使用する。
 - Drizzle Seed を使用して、初期データを投入する。
 
+---
 
-### 開発環境
+## 開発環境
 - `wrangler dev` を使用して、Cloudflare Workers のローカル開発環境を構築する。
 - Vitest を使用して、ユニットテストを実行する。
 - Playwright を使用して、E2E テストを実行する。
+
+---
+
+## プロジェクトのはじめ方
+1. `https://github.com/honojs/honox/blob/main/README.md` を参照して honox プロジェクトを作成して下さい。`echo 'y' | npm create hono@latest -- . --template x-basic -p npm -i` を実行してプロジェクトを作成出来ます。
+2. TypeScript を installして、`tsconfig.json` を生成して下さい。
+3. Eslint を用いた lint の設定も行ってください。
+4. `npx shadcn@latest init` を実行して Shadcn UI を初期化して下さい。`npx shadcn add [コンポーネント名]` を実行してコンポーネントを追加できます。
+
