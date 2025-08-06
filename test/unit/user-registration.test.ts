@@ -29,7 +29,9 @@ describe('ユーザー登録機能', () => {
       }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(createDb).mockReturnValue(mockDb as any);
+    const mockD1 = {} as D1Database;
 
     const userData = {
       email: 'test@example.com',
@@ -37,7 +39,7 @@ describe('ユーザー登録機能', () => {
       name: 'Test User'
     };
 
-    const result = await registerUser(userData);
+    const result = await registerUser(userData, mockD1);
 
     expect(result).toEqual({
       id: 'user-1',
@@ -60,7 +62,9 @@ describe('ユーザー登録機能', () => {
       }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(createDb).mockReturnValue(mockDb as any);
+    const mockD1 = {} as D1Database;
 
     const userData = {
       email: 'test@example.com',
@@ -68,7 +72,7 @@ describe('ユーザー登録機能', () => {
       name: 'Test User'
     };
 
-    await expect(registerUser(userData)).rejects.toThrow('このメールアドレスは既に登録されています');
+    await expect(registerUser(userData, mockD1)).rejects.toThrow('このメールアドレスは既に登録されています');
   });
 
   it('無効なメールアドレスでの登録は失敗する', async () => {
