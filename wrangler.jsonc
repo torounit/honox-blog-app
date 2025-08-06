@@ -13,7 +13,7 @@
     {
       "binding": "DB",
       "database_name": "blog-db",
-      "database_id": "",
+      "database_id": "local-blog-db",
       "migrations_dir": "./migrations"
     }
   ]
