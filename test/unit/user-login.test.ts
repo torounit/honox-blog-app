@@ -1,8 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { loginUser } from '@/lib/user-service';
 import { createDb } from '@/db';
+import * as bcryptjs from 'bcryptjs';
 
 vi.mock('@/db');
+vi.mock('bcryptjs');
 
 describe('ユーザーログイン機能', () => {
   beforeEach(() => {
@@ -22,6 +24,9 @@ describe('ユーザーログイン機能', () => {
         }
       }
     };
+
+    // bcryptのcompare関数をモック
+    vi.mocked(bcryptjs.compare).mockResolvedValue(true as never);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(createDb).mockReturnValue(mockDb as any);
@@ -75,6 +80,9 @@ describe('ユーザーログイン機能', () => {
         }
       }
     };
+
+    // bcryptのcompare関数をモック（false を返す）
+    vi.mocked(bcryptjs.compare).mockResolvedValue(false as never);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(createDb).mockReturnValue(mockDb as any);
