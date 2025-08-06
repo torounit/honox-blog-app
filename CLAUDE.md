@@ -76,7 +76,7 @@
 ## 仕様
 
 ### プロジェクト構成
-* `hono-create` を利用してプロジェクトを作成する。
+* `https://github.com/honojs/honox/blob/main/README.md` を参照して honox プロジェクトを作成して下さい。
 
 ### 認証
 - auth.js を使用して、ユーザー認証を実装する。
@@ -114,6 +114,6 @@
 
 
 ### 開発環境
-- Wrangler を使用して、Cloudflare Workers のローカル開発環境を構築する。
+- `wrangler dev` を使用して、Cloudflare Workers のローカル開発環境を構築する。
 - Vitest を使用して、ユニットテストを実行する。
 - Playwright を使用して、E2E テストを実行する。
