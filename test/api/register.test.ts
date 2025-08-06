@@ -39,10 +39,12 @@ describe('/api/register エンドポイント', () => {
       })
     });
 
-    const response = await app.request(req, mockEnv);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response = await app.request(req, mockEnv as any);
     expect(response.status).toBe(201);
     
-    const data = await response.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data = await response.json() as any;
     expect(data).toEqual({
       success: true,
       user: {
@@ -68,10 +70,12 @@ describe('/api/register エンドポイント', () => {
       })
     });
 
-    const response = await app.request(req, mockEnv);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response = await app.request(req, mockEnv as any);
     expect(response.status).toBe(400);
     
-    const data = await response.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data = await response.json() as any;
     expect(data).toEqual({
       success: false,
       error: '有効なメールアドレスを入力してください'
@@ -91,10 +95,12 @@ describe('/api/register エンドポイント', () => {
       })
     });
 
-    const response = await app.request(req, mockEnv);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response = await app.request(req, mockEnv as any);
     expect(response.status).toBe(409);
     
-    const data = await response.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data = await response.json() as any;
     expect(data).toEqual({
       success: false,
       error: 'このメールアドレスは既に登録されています'
@@ -111,10 +117,12 @@ describe('/api/register エンドポイント', () => {
       })
     });
 
-    const response = await app.request(req, mockEnv);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response = await app.request(req, mockEnv as any);
     expect(response.status).toBe(400);
     
-    const data = await response.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data = await response.json() as any;
     expect(data.success).toBe(false);
     expect(data.error).toContain('必須');
   });
