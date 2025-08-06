@@ -22,6 +22,7 @@ export default [
         __dirname: 'readonly',
         D1Database: 'readonly',
         process: 'readonly',
+        Request: 'readonly',
       },
     },
     plugins: {
