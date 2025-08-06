@@ -7,16 +7,32 @@ import { registerUser } from '@/lib/user-service';
 vi.mock('@/lib/user-service');
 vi.mock('@/db');
 
+interface MockEnv {
+  DB: D1Database;
+}
+
+interface ApiResponse {
+  success: boolean;
+  user?: {
+    id: string;
+    email: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+  error?: string;
+}
+
 const mockD1 = {} as D1Database;
-const mockEnv = { DB: mockD1 };
+const mockEnv: MockEnv = { DB: mockD1 };
 
 describe('/api/register エンドポイント', () => {
-  let app: Hono;
+  let app: Hono<{ Bindings: MockEnv }>;
 
   beforeEach(() => {
     vi.clearAllMocks();
-    
-    app = new Hono();
+
+    app = new Hono<{ Bindings: MockEnv }>();
     app.route('/api', createRegisterRoute());
   });
 
@@ -29,22 +45,18 @@ describe('/api/register エンドポイント', () => {
       updatedAt: new Date('2024-01-01')
     });
 
-    const req = new Request('http://localhost/api/register', {
+    const response = await app.request('/api/register', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: new Headers({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         email: 'test@example.com',
         password: 'password123',
         name: 'Test User'
       })
-    });
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response = await app.request(req, mockEnv as any);
+    }, mockEnv);
     expect(response.status).toBe(201);
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data = await response.json() as any;
+
+    const data = await response.json() as ApiResponse;
     expect(data).toEqual({
       success: true,
       user: {
@@ -60,22 +72,18 @@ describe('/api/register エンドポイント', () => {
   it('無効なメールアドレスでエラーが返される', async () => {
     vi.mocked(registerUser).mockRejectedValue(new Error('有効なメールアドレスを入力してください'));
 
-    const req = new Request('http://localhost/api/register', {
+    const response = await app.request('/api/register', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: new Headers({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         email: 'invalid-email',
         password: 'password123',
         name: 'Test User'
       })
-    });
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response = await app.request(req, mockEnv as any);
+    }, mockEnv);
     expect(response.status).toBe(400);
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data = await response.json() as any;
+
+    const data = await response.json() as ApiResponse;
     expect(data).toEqual({
       success: false,
       error: '有効なメールアドレスを入力してください'
@@ -85,22 +93,18 @@ describe('/api/register エンドポイント', () => {
   it('既存のメールアドレスでエラーが返される', async () => {
     vi.mocked(registerUser).mockRejectedValue(new Error('このメールアドレスは既に登録されています'));
 
-    const req = new Request('http://localhost/api/register', {
+    const response = await app.request('/api/register', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: new Headers({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         email: 'existing@example.com',
         password: 'password123',
         name: 'Test User'
       })
-    });
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response = await app.request(req, mockEnv as any);
+    }, mockEnv);
     expect(response.status).toBe(409);
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data = await response.json() as any;
+
+    const data = await response.json() as ApiResponse;
     expect(data).toEqual({
       success: false,
       error: 'このメールアドレスは既に登録されています'
@@ -108,22 +112,19 @@ describe('/api/register エンドポイント', () => {
   });
 
   it('必須フィールドが不足している場合エラーが返される', async () => {
-    const req = new Request('http://localhost/api/register', {
+    const response = await app.request('/api/register', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: new Headers({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         email: 'test@example.com'
         // password と name が不足
       })
-    });
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response = await app.request(req, mockEnv as any);
+    }, mockEnv);
     expect(response.status).toBe(400);
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data = await response.json() as any;
+
+    const data = await response.json() as ApiResponse;
     expect(data.success).toBe(false);
-    expect(data.error).toContain('必須');
+    expect(data.error).toBeDefined();
+    expect(data.error!).toContain('必須');
   });
 });

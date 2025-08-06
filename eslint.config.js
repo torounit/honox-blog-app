@@ -23,6 +23,7 @@ export default [
         D1Database: 'readonly',
         process: 'readonly',
         Request: 'readonly',
+        Headers: 'readonly',
       },
     },
     plugins: {
