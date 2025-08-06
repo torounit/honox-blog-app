@@ -77,7 +77,7 @@
 
 ### プロジェクト構成
 * `https://github.com/honojs/honox/blob/main/README.md` を参照して honox プロジェクトを作成して下さい。
-* `npm create hono@latest -- . --template x-basic -p npm` を実行してプロジェクトを作成出来ます。
+* `npm create hono@latest -- . --template x-basic -pm npm -i` を実行してプロジェクトを作成出来ます。
 
 ### 認証
 - auth.js を使用して、ユーザー認証を実装する。
