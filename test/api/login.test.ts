@@ -1,10 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Hono } from 'hono';
-// import { createLoginRoute } from '@/routes/api/login'; // TODO: 実装後に有効化
+import { createLoginRoute } from '@/routes/api/login';
 import { loginUser } from '@/lib/user-service';
-
-// 一時的なダミー関数（実装完了後削除予定）
-const createLoginRoute = () => new Hono();
 
 // モックの設定
 vi.mock('@/lib/user-service');
